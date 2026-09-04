@@ -27,6 +27,9 @@ This command:
 1. Saves the package to local storage.
 2. Sends the package name, type, and file contents to FudgeServer.
 3. Updates the remote package catalog.
+4. Prints a private update key for the package.
+
+Package names must be unique. Creating another package with an existing name is rejected.
 
 After publishing, the package can be installed on another computer:
 
@@ -87,6 +90,27 @@ Show help:
 .\fudge --help
 ```
 
+### `update`
+
+Update a package using its private update key and a new script file:
+
+```powershell
+.\fudge update <update-key> <script-path>
+```
+
+The key is checked by the server. The client keeps a copy locally for the owner, while the public package catalog never exposes it.
+
+### `delete`
+
+Delete a package from the remote catalog:
+
+```powershell
+.\fudge delete <update-key> <package-name>
+```
+
+Fudge asks for `Are you sure? Y/N:` before sending the delete request. The server validates the key before removing the package.
+After a successful deletion, the local package cache is removed as well.
+
 ## Supported files
 
 Fudge supports these script types:
@@ -142,6 +166,7 @@ The catalog contains a `Packages` array. Each package uses these fields:
 ```
 
 The `Command` field contains the package file contents. The `DownloadUrl` field is not used.
+Update keys are stored in the server's private catalog data and are never returned by public catalog requests.
 
 ## Common errors
 
