@@ -1,2 +1,2 @@
 # Fudge
-Beta
+Just simple beta command manager for Windows
